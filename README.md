@@ -1,19 +1,19 @@
 # Wetube
 
-/ -> Home
-/join -> Join
-/login -> Login
-/search -> Search
+/ -> Home <br>
+/join -> Join <br>
+/login -> Login <br>
+/search -> Search <br>
 
-/users/edit -> Edit user
-/users/delete -> Delete user
+/users/:id -> See User <br>
+/users/logout -> Logout <br>
+/users/edit -> Edit My Profile <br>
+/users/remove -> Remove My Profile <br>
 
-/videos/watch -> Watch video
-/videos/edit -> Edit video
-/videos/delete -> Delete video
-/videos/comments -> Comment on a video
-/videos/comments/delete -> Delete a comment of a video
-
+/videos/:id -> See Video <br>
+/videos/:id/edit -> Edit Video <br>
+/videos/:id/remove -> Remove Video <br>
+/videos/upload -> Upload Video <br>
 <br>
 
 ## Source : https://nomadcoders.co/

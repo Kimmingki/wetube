@@ -22,11 +22,17 @@ app.use(express.urlencoded({ extended: true }));
 // session 확인 미들웨어
 app.use(
   session({
-    secret: "Hello!",
+    secret: process.env.COOKIE_SECRET,
     resave: false,
+    // 로그인한 유저에게만 session 건내주기
     saveUninitialized: false,
+    // 쿠키값 설정
+    cookie: {
+      // 쿠기 만료일자 설정
+      maxAge: 20000000,
+    },
     // session을 mongoDB에 저장하기
-    store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1:27017/wetube" }),
+    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
   })
 );
 

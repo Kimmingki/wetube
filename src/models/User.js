@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 // user 모델 만들기
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
+  avatarUrl: String,
   socialOnly: { type: Boolean, default: false },
   username: { type: String, required: true },
   password: { type: String },

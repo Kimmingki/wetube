@@ -16,9 +16,9 @@ html(lang="ko")
                     //- 로그인 유무 확인
                     if loggedIn
                         li 
-                            a(href="/users/logout") Log Out
+                            a(href="/users/edit") Edit Profile
                         li 
-                            a(href="/my-profile") #{loggedInUser.name}'s profile
+                            a(href="/users/logout") Log Out
                     else
                         li 
                             a(href="/join") Join

@@ -9,3 +9,7 @@ block content
         input(placeholder="Username", name="username", type="text", required, value=loggedInUser.username)
         input(placeholder="Location", name="location", type="text", required, value=loggedInUser.location)
         input(type="submit", value="Update Profile")
+        //- 소셜 로그인 유저에게 보이지 않기
+        if !loggedInUser.socialOnly
+            hr
+            a(href="change-password") Change Password &rarr;

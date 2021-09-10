@@ -42,30 +42,32 @@ export const postJoin = async (req, res) => {
 };
 
 export const getEdit = (req, res) => {
-  return res.render("edit-profile", { pageTtile: "Edit profile" });
+  return res.render("edit-profile", { pageTitle: "Edit profile" });
 };
 export const postEdit = async (req, res) => {
   const {
     session: {
-      user: { _id },
+      user: { _id, avatarUrl },
     },
     body: { name, email, username, location },
+    file,
   } = req;
   const findUsername = await User.findOne({ username });
   const findEmail = await User.findOne({ email });
 
   // 이미 있는 계정, 아이디 파악
-  if (findUsername._id !== _id || findEmail._id !== email) {
-    return res.status(400).render("edit-profile", {
-      pageTitle: "Edit profile",
-      errorMessage: "This username or email is already taken.",
-    });
-  }
+  // if (findUsername._id !== _id || findEmail._id !== email) {
+  //   return res.status(400).render("edit-profile", {
+  //     pageTitle: "Edit profile",
+  //     errorMessage: "This username or email is already taken.",
+  //   });
+  // }
 
   // profile 업데이트
   const updateUser = await User.findByIdAndUpdate(
     _id,
     {
+      avatarUrl: file ? file.path : avatarUrl,
       name,
       email,
       username,

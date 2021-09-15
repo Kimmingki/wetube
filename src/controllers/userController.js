@@ -186,7 +186,6 @@ export const finishGithubLogin = async (req, res) => {
   }
 };
 
-export const profile = (req, res) => res.send("Profile");
 export const logout = (req, res) => {
   req.session.destroy();
   return res.redirect("/");
@@ -227,4 +226,14 @@ export const postChangePassword = async (req, res) => {
   await user.save();
   // send notification
   return res.redirect("/users/logout");
+};
+
+export const profile = async (req, res) => {
+  // public이기 때문에 url에서 id 가져오기
+  const { id } = req.params;
+  const user = await User.findById(id);
+  if (!user) {
+    return res.status(404).render("404", { pageTitle: "User not found" });
+  }
+  return res.render("profile", { pageTitle: user.name, user });
 };

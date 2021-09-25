@@ -154,7 +154,7 @@ export const finishGithubLogin = async (req, res) => {
           Authorization: `token ${access_token}`,
         },
       })
-    ).json;
+    ).json();
     const emailObj = emailData.find(
       (email) => email.primary === true && email.verified === true
     );
@@ -168,18 +168,19 @@ export const finishGithubLogin = async (req, res) => {
       user = await User.create({
         avatarUrl: userData.avatar_url,
         name: userData.name,
-        username: userDate.login,
+        username: userData.login,
         email: emailObj.email,
         password: "",
         socialOnly: true,
         location: userData.location,
       });
       req.session.loggedIn = true;
-      req.session.user = existingUser;
+      req.session.user = user;
       return res.redirect("/");
     }
+    console.log(user);
     req.session.loggedIn = true;
-    req.session.user = existingUser;
+    req.session.user = user;
     return res.redirect("/");
   } else {
     // set notification
@@ -232,10 +233,10 @@ export const postChangePassword = async (req, res) => {
 export const profile = async (req, res) => {
   // public이기 때문에 url에서 id 가져오기
   const { id } = req.params;
-  const user = await User.findById(id);
+  const user = await User.findById(id).populate("videos");
   if (!user) {
     return res.status(404).render("404", { pageTitle: "User not found" });
   }
-  const videos = await Video.find({ owner: user._id });
-  return res.render("profile", { pageTitle: user.name, user, videos });
+
+  return res.render("profile", { pageTitle: user.name, user });
 };

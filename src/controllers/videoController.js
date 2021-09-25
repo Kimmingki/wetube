@@ -1,4 +1,5 @@
 import Video from "../models/Video";
+import User from "../models/User";
 
 /* callback
   Video.find({}, (error, videos) => {
@@ -58,13 +59,17 @@ export const postUpload = async (req, res) => {
   const file = req.file;
   const { title, description, hashtags } = req.body;
   try {
-    await Video.create({
+    const newVideo = await Video.create({
       title,
       description,
       fileUrl: file.path,
       owner: _id,
       hashtags: Video.formatHashtags(hashtags),
     });
+    // video를 만들면 user profile에 가지고 있는 video를 넣기
+    const user = await User.findById(_id);
+    user.videos.push(newVideo._id);
+    user.save();
     return res.redirect("/");
   } catch (error) {
     console.log(error);

@@ -41,6 +41,7 @@ app.use(localsMiddleware);
 
 // routing은 마지막에
 app.use("/uploads", express.static("uploads"));
+app.use("/assets", express.static("assets"));
 app.use("/", rootRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);

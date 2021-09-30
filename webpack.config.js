@@ -12,10 +12,13 @@ module.exports = {
   ],
   // 현재 개발중인지 완성품인지 mode를 적어줌
   mode: "development",
+  // css나 js 파일을 변경할 때 script를 직접 실행하지 않기 위해서
+  watch: true,
   output: {
     filename: "js/main.js",
     // output path는 절대경로로 적어야함
     path: path.resolve(__dirname, "assets"),
+    clean: true,
   },
   module: {
     rules: [

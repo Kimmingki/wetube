@@ -3,7 +3,10 @@ const path = require("path");
 
 module.exports = {
   // webpack.config.js 필수 사항 (entry, output)
-  entry: "./src/client/js/main.js",
+  entry: {
+    main: "./src/client/js/main.js",
+    videoPlayer: "./src/client/js/videoPlayer.js",
+  },
   // JS 코드에서 CSS를 분리하기 위해서
   plugins: [
     new MiniCssExtractPlugin({
@@ -15,7 +18,7 @@ module.exports = {
   // css나 js 파일을 변경할 때 script를 직접 실행하지 않기 위해서
   watch: true,
   output: {
-    filename: "js/main.js",
+    filename: "js/[name].js",
     // output path는 절대경로로 적어야함
     path: path.resolve(__dirname, "assets"),
     clean: true,

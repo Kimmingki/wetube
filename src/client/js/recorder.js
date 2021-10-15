@@ -4,6 +4,7 @@ const video = document.getElementById("preview");
 let stream;
 let recorder;
 let videoFile;
+let timeOut = null;
 
 const handleDownload = () => {
   const a = document.createElement("a");
@@ -18,7 +19,10 @@ const handleStop = () => {
   startBtn.removeEventListener("click", handleStop);
   startBtn.addEventListener("click", handleDownload);
 
-  recorder.stop();
+  if (timeOut) {
+    clearTimeout(timeOut);
+    recorder.stop();
+  }
 };
 
 const handleStart = () => {

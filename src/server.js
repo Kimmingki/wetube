@@ -3,6 +3,7 @@ import express from "express";
 import morgan from "morgan";
 import path from "path";
 import session from "express-session";
+import flash from "express-flash";
 import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
@@ -36,6 +37,8 @@ app.use(
     store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
   })
 );
+
+app.use(flash());
 
 // middleware는 순서가 중요 session보다 뒤에 와야함
 app.use(localsMiddleware);

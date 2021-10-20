@@ -190,12 +190,14 @@ export const finishGithubLogin = async (req, res) => {
 
 export const logout = (req, res) => {
   req.session.destroy();
+  req.flash("info", "Bye Bye ");
   return res.redirect("/");
 };
 
 export const getChangePassword = (req, res) => {
   // github 유저는 변경불가
   if (req.session.user.socialOnly === true) {
+    req.flash("info", "Can't change password");
     return res.render("/");
   }
   return res.render("change-password", { pageTitle: "Change Password" });

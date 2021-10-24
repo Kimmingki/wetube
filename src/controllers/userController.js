@@ -64,11 +64,12 @@ export const postEdit = async (req, res) => {
   //   });
   // }
 
+  const isheroku = process.env.NODE_ENV === "production";
   // profile 업데이트
   const updateUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file ? file.location : avatarUrl,
+      avatarUrl: file ? (isheroku ? file.location : file.path) : avatarUrl,
       name,
       email,
       username,

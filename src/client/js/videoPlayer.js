@@ -134,6 +134,10 @@ const handleEnded = () => {
   fetch(`/api/videos/${id}/views`, { method: "POST" });
 };
 
+if (video.readyState == 4) {
+  handleLoadedMetadata();
+}
+
 playBtn.addEventListener("click", handlePlay);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange);

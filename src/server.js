@@ -20,6 +20,7 @@ app.set("view engine", "pug");
 
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // session 확인 미들웨어
 app.use(

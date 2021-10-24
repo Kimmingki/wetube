@@ -19,7 +19,7 @@ const handleDeleteComment = async (event) => {
 const addComment = (text, id) => {
   const videoComments = document.querySelector(".video__comments ul");
   const newComment = document.createElement("li");
-  newComment.datasetset.id = id;
+  newComment.dataset.id = id;
   newComment.className = "video__comment ";
   const icon = document.createElement("i");
   icon.className = "fas fa-comment";

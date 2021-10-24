@@ -4,7 +4,7 @@ import {
   registerView,
   deleteComment,
 } from "../controllers/videoController";
-import { protectorMiddleware } from "../middleware";
+import { protectorMiddleware } from "../middlewares";
 
 const apiRouter = express.Router();
 

@@ -1,8 +1,7 @@
-extends ../base
-include ../mixins/video
+extends base.pug
+include mixins/video
 
-
-block content
+block content 
     div.profile__data
         img(src="/" + user.avatarUrl).avatar
         h3=user.name
@@ -10,4 +9,4 @@ block content
         each video in user.videos
             +video(video)
         else
-            span.empty__message No videos found
+            span.empty__message No videos found 

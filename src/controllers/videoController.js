@@ -1,6 +1,15 @@
 import Video from "../models/Video";
-import Comment from "../models/Comment";
 import User from "../models/User";
+import Comment from "../models/Comment";
+
+/* callback
+  Video.find({}, (error, videos) => {
+    if(error) {
+      return res.render("server-error");
+    }
+    return res.render("home", { pageTitle: "Home", videos });
+  })
+*/
 
 export const home = async (req, res) => {
   const videos = await Video.find({})
@@ -13,7 +22,7 @@ export const watch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id).populate("owner").populate("comments");
   if (!video) {
-    return res.render("404", { pageTitle: "Video not found." });
+    return res.status(404).render("404", { pageTitle: "Video not found." });
   }
   return res.render("watch", { pageTitle: video.title, video });
 };
@@ -58,7 +67,7 @@ export const postEdit = async (req, res) => {
 };
 
 export const getUpload = (req, res) => {
-  return res.render("upload", { pageTitle: "Upload Video" });
+  return res.render("upload", { pageTitle: `Upload` });
 };
 
 export const postUpload = async (req, res) => {
@@ -67,16 +76,16 @@ export const postUpload = async (req, res) => {
   } = req.session;
   const { video, thumb } = req.files;
   const { title, description, hashtags } = req.body;
-  const isHeroku = process.env.NODE_ENV === "production";
   try {
     const newVideo = await Video.create({
       title,
       description,
-      fileUrl: isHeroku ? video[0].location : video[0].path,
-      thumbUrl: isHeroku ? thumb[0].location : video[0].path,
+      fileUrl: video[0].path,
+      thumbUrl: thumb[0].path,
       owner: _id,
       hashtags: Video.formatHashtags(hashtags),
     });
+    // video를 만들면 user profile에 가지고 있는 video를 넣기
     const user = await User.findById(_id);
     user.videos.push(newVideo._id);
     user.save();
@@ -84,7 +93,7 @@ export const postUpload = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(400).render("upload", {
-      pageTitle: "Upload Video",
+      pagTitle: "Upload Video",
       errorMessage: error._message,
     });
   }
@@ -97,9 +106,10 @@ export const deleteVideo = async (req, res) => {
   } = req.session;
   const video = await Video.findById(id);
   if (!video) {
-    return res.status(404).render("404", { pageTitle: "Video not found." });
+    return res.status(400).render("404", { pageTitle: "Video not found." });
   }
   if (String(video.owner) !== String(_id)) {
+    req.flash("error", "Not authorized");
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndDelete(id);
@@ -112,7 +122,7 @@ export const search = async (req, res) => {
   if (keyword) {
     videos = await Video.find({
       title: {
-        $regex: new RegExp(`${keyword}$`, "i"),
+        $regex: new RegExp(keyword, "i"),
       },
     }).populate("owner");
   }

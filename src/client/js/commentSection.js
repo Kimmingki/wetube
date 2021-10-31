@@ -20,7 +20,7 @@ const addComment = (text, id) => {
   const videoComments = document.querySelector(".video__comments ul");
   const newComment = document.createElement("li");
   newComment.dataset.id = id;
-  newComment.className = "video__comment";
+  newComment.className = "video__comment ";
   const icon = document.createElement("i");
   icon.className = "fas fa-comment";
   const span = document.createElement("span");
@@ -32,6 +32,8 @@ const addComment = (text, id) => {
   newComment.appendChild(span);
   newComment.appendChild(span2);
   videoComments.prepend(newComment);
+
+  span2.addEventListener("click", handleDeleteComment);
 };
 
 const handleSubmit = async (event) => {
@@ -45,7 +47,7 @@ const handleSubmit = async (event) => {
   const response = await fetch(`/api/videos/${videoId}/comment`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-type": "application/json",
     },
     body: JSON.stringify({ text }),
   });

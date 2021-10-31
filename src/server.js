@@ -15,8 +15,8 @@ const app = express();
 const logger = morgan("dev");
 
 // html 쓰지 않고 view engine을 pug로 쓰기
-app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "pug");
+app.set("views", process.cwd() + "/src/views");
 
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
